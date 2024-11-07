@@ -1,1 +1,1 @@
-print("asdbajshdjhas")
+print("ban mat cu")
