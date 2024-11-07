@@ -1,1 +1,1 @@
-print("khoa mat c12312him")
+print("sang mat cac")
