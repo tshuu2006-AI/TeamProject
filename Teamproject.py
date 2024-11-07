@@ -1,1 +1,1 @@
-print("ban mat cu")
+print("khoa mat chim")
