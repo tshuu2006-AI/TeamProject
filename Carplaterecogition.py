@@ -43,7 +43,7 @@ df.head()
 
 def getFilename(filename):
     filename_image = xet.parse(filename).getroot().find('filename').text
-    filepath_image = os.path.join('./Automatic-License-Plate-Detection-main/Automatic-License-Plate-Detection-main/images',filename_image)
+    filepath_image = os.path.join('./Automatic-License-Plate-Detection-main/images',filename_image)
     return filepath_image
 
 image_path = list(df['filepath'].apply(getFilename))
