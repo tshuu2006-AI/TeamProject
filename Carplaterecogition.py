@@ -19,7 +19,7 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Input
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 
-path = glob('./Automatic-License-Plate-Detection-main/Automatic-License-Plate-Detection-main/images/*.xml')
+path = glob('./Automatic-License-Plate-Detection-main/images/*.xml')
 labels_dict = dict(filepath=[],xmin=[],xmax=[],ymin=[],ymax=[])
 for i in path:
     info = xet.parse(i)
