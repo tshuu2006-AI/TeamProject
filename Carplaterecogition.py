@@ -20,7 +20,6 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 
 path = glob('./Automatic-License-Plate-Detection-main/images/*.xml')
-print(path)
 labels_dict = dict(filepath=[],xmin=[],xmax=[],ymin=[],ymax=[])
 for i in path:
     info = xet.parse(i)
