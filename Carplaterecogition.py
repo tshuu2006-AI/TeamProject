@@ -18,8 +18,8 @@ from tensorflow.keras.applications import InceptionResNetV2
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Input
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
-
-path = glob('./Automatic-License-Plate-Detection-main/images/*.xml')
+file_path = os.path.dirname(__file__)
+path = glob(os.path.join(file_path,'Automatic-License-Plate-Detection-main/images/*.xml'))
 labels_dict = dict(filepath=[],xmin=[],xmax=[],ymin=[],ymax=[])
 for i in path:
     info = xet.parse(i)
@@ -41,6 +41,7 @@ df = pd.DataFrame(labels_dict)
 df.to_csv('labels.csv',index=False)
 df.head()
 
+
 def getFilename(filename):
     filename_image = xet.parse(filename).getroot().find('filename').text
     filepath_image = os.path.join('./Automatic-License-Plate-Detection-main/images',filename_image)
@@ -54,5 +55,4 @@ img = io.imread(file_path) #Read the image
 fig = px.imshow(img)
 fig.update_layout(width=600, height=500, margin=dict(l=10, r=10, b=10, t=10),xaxis_title='Figure 8 - N137.jpeg with bounding box')
 fig.add_shape(type='rect',x0=401, x1=593, y0=456, y1=493, xref='x', yref='y' ,line_color='cyan')
-#hello mn
-
+hello mn
