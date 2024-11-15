@@ -75,10 +75,10 @@ for ind in range(len(image_path)):
     # Append
     data.append(norm_load_image_arr)
     output.append(label_norm)
+    print()
 
 #convert to numpy array
 X = np.array(data,dtype=np.float32)
 y = np.array(output,dtype=np.float32)
 # Split the data into training and testing set using sklearn.
 x_train,x_test,y_train,y_test = train_test_split(X,y,train_size=0.8,random_state=0)
-print()
