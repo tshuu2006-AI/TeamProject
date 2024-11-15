@@ -20,12 +20,13 @@ from tensorflow.keras.applications import InceptionResNetV2
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Input
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
-
-#TRUY CẬP FILE VÀ TẠO PANDAS DATAFRAME VỚI CÁC TỌA ĐỘ CỦA BIỂN SỐ
+# 1. PREPROCESSING
+#Parsing information from xml and create pandas dataframe
 file_path = os.path.dirname(__file__)
 path = glob(os.path.join(file_path,'Automatic-License-Plate-Detection-main/images/*.xml'))
 labels_dict = dict(filepath=[],xmin=[],xmax=[],ymin=[],ymax=[])
 for i in path:
+
     info = xet.parse(i)
     root = info.getroot()
     member_object = root.find('object')
@@ -40,10 +41,10 @@ for i in path:
     labels_dict['xmax'].append(xmax)
     labels_dict['ymin'].append(ymin)
     labels_dict['ymax'].append(ymax)
+
 df = pd.DataFrame(labels_dict)
 df.to_csv('labels.csv',index=False)
 df.head()
-
 
 def getFilename(filename):
     filename_image = xet.parse(filename).getroot().find('filename').text
@@ -52,7 +53,9 @@ def getFilename(filename):
 
 image_path = list(df['filepath'].apply(getFilename))
 
-#Targeting all our values in array selecting all columns
+
+# 2. XỬ LÝ DỮ LIỆU
+#Get data from dataframe
 labels = df.iloc[ : , 1 : ].values
 data = []
 output = []
@@ -72,4 +75,10 @@ for ind in range(len(image_path)):
     # Append
     data.append(norm_load_image_arr)
     output.append(label_norm)
-    print(load_image_arr)
+
+#convert to numpy array
+X = np.array(data,dtype=np.float32)
+y = np.array(output,dtype=np.float32)
+# Split the data into training and testing set using sklearn.
+x_train,x_test,y_train,y_test = train_test_split(X,y,train_size=0.8,random_state=0)
+print()
