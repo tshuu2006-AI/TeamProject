@@ -75,10 +75,26 @@ for ind in range(len(image_path)):
     # Append
     data.append(norm_load_image_arr)
     output.append(label_norm)
-    print()
 
 #convert to numpy array
 X = np.array(data,dtype=np.float32)
 y = np.array(output,dtype=np.float32)
 # Split the data into training and testing set using sklearn.
 x_train,x_test,y_train,y_test = train_test_split(X,y,train_size=0.8,random_state=0)
+
+#Setup inception-resnetV2
+inception_resnet = InceptionResNetV2(weights="imagenet",include_top=False, input_tensor=Input(shape=(224,224,3)))
+# ---------------------
+headmodel = inception_resnet.output
+headmodel = Flatten()(headmodel)
+headmodel = Dense(500,activation="relu")(headmodel)
+headmodel = Dense(250,activation="relu")(headmodel)
+headmodel = Dense(4,activation='sigmoid')(headmodel)
+# ---------- model
+model = Model(inputs=inception_resnet.input,outputs=headmodel)
+#Compile
+model.compile(loss='mse',optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4)) #configure the deep learning architecture.
+model.summary() #print out the overview of the architecture
+
+tfb = TensorBoard('object_detection')
+history = model.fit(x=x_train,y=y_train,batch_size=10,epochs=100,validation_data=(x_test,y_test),callbacks=[tfb])
